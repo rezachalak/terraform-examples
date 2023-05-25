@@ -1,20 +1,24 @@
 
 # Create an S3 bucket
 resource "aws_s3_bucket" "example_bucket" {
-  bucket = "example-bucket-name"  # Set your desired bucket name here
+  bucket = "example-bucket-name" # Set your desired bucket name here
+}
+
+resource "aws_s3_bucket_acl" "s3_acl" {
+  bucket = resource.aws_s3_bucket.example_bucket.id
   acl    = "private"
 }
 
 # Create an IAM user
 resource "aws_iam_user" "example_user" {
-  name = "example-user"  # Set your desired username here
+  name = "example-user" # Set your desired username here
 }
 
 # Create an IAM policy to allow PutObject in the S3 bucket
 resource "aws_iam_policy" "example_policy" {
   name   = "example-policy"
   policy = <<EOF
-{
+{   
   "Version": "2012-10-17",
   "Statement": [
     {
@@ -36,7 +40,7 @@ resource "aws_iam_user_policy_attachment" "example_policy_attachment" {
 
 # Create an assumable IAM role
 resource "aws_iam_role" "example_role" {
-  name = "example-role"  # Set your desired role name here
+  name = "example-role" # Set your desired role name here
 
   assume_role_policy = <<EOF
 {
@@ -56,9 +60,8 @@ EOF
 
 # Create an IAM role policy to allow PutObject in the S3 bucket
 resource "aws_iam_role_policy" "example_role_policy" {
-  role      = aws_iam_role.example_role.name
-  policy    = aws_iam_policy.example_policy.policy
-  policy_arn = aws_iam_policy.example_policy.arn
+  role   = aws_iam_role.example_role.name
+  policy = aws_iam_policy.example_policy.policy
 }
 
 # User assumes the role and puts an empty file in the S3 bucket
@@ -70,7 +73,7 @@ resource "aws_iam_user_policy_attachment" "assume_role_policy_attachment" {
 resource "aws_s3_bucket_object" "example_object" {
   bucket = aws_s3_bucket.example_bucket.id
   key    = aws_iam_user.example_user.name
-  source = "/dev/null"  # Empty file
+  source = "/dev/null" # Empty file
 
   depends_on = [aws_iam_user_policy_attachment.assume_role_policy_attachment]
 }
