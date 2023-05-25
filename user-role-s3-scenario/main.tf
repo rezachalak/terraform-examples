@@ -70,7 +70,7 @@ resource "aws_iam_user_policy_attachment" "assume_role_policy_attachment" {
   policy_arn = aws_iam_role.example_role.arn
 }
 
-resource "aws_s3_bucket_object" "example_object" {
+resource "aws_s3_object" "example_object" {
   bucket = aws_s3_bucket.example_bucket.id
   key    = aws_iam_user.example_user.name
   source = "/dev/null" # Empty file
