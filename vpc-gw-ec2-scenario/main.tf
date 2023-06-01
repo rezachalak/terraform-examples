@@ -27,8 +27,8 @@ resource "aws_subnet" "tf" {
 #4. Create Elastic IP
 
 resource "aws_eip" "tf" {
-#   domain = "vpc"
-  vpc = aws_vpc.tf
+  domain = "vpc"
+  vpc_id = aws_vpc.tf.id
   instance                  = aws_instance.tf.id
   associate_with_private_ip = "10.0.0.12"
   depends_on                = [aws_internet_gateway.gw]
