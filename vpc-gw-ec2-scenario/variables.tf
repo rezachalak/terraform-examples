@@ -44,3 +44,7 @@ variable "subdomain" {
 variable "domain" {
   type = string
 }
+
+variable "email_for_letsencrypt" {
+  type = string
+}

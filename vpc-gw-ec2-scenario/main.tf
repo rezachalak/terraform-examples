@@ -97,4 +97,13 @@ resource "aws_instance" "tf" {
   security_groups = [ aws_security_group.tf.name ]
   private_ip = var.private_ip
   subnet_id  = aws_subnet.tf.id
+  user_data = <<-EOF
+  #!/bin/bash
+  set -e
+  sudo apt update
+  sudo apt install -y certbot python3-certbot-nginx
+  sudo echo "Hello IaC" > /var/www/html/index.html
+  sudo systemctl start nginx
+  sudo certbot -n -m ${var.email_for_letsencrypt} --nginx -d ${var.subdomain}
+  sudo 
 }
