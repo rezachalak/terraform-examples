@@ -5,7 +5,7 @@ data "aws_caller_identity" "current" {
 resource "aws_vpc" "tf" {
   cidr_block = var.vpc_subnet
   tags = {
-    Name = tf
+    Name = "tf"
   }
 }
 #2. Create a Internet Gateway
