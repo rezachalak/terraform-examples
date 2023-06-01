@@ -43,7 +43,6 @@ resource "aws_security_group" "tf" {
   vpc_id      = aws_vpc.tf.id
 
   ingress {
-    name             = tf_https
     description      = "https"
     from_port        = 443
     to_port          = 443
@@ -52,7 +51,6 @@ resource "aws_security_group" "tf" {
   }
 
   ingress {
-    name             = tf_http
     description      = "http"
     from_port        = 80
     to_port          = 80
@@ -61,7 +59,6 @@ resource "aws_security_group" "tf" {
   }
 
   ingress {
-    name             = tf_ssh
     description      = "ssh"
     from_port        = 22
     to_port          = 22
