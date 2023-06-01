@@ -25,7 +25,7 @@ variable "filter_ami" {
 
 variable "filter_strings" {
   default = ["Ubuntu","x86_64","22.04"]
-  type = list
+  type = list(string)
 }
 
 variable "ec2_type" {
