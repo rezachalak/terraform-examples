@@ -78,11 +78,21 @@ resource "aws_route53_record" "tf" {
   ttl     = 300
   records = [aws_eip.tf.public_ip]
 }
+#7. Filter AMI ID to find the latest one according to var.filter_strings
+data "aws_ami" "ubuntu" {
+  most_recent = true
+  owners      = [""]
 
-#7. Create an EC2 Instance with the interface with nginx and certbot installed and say "hello IaC"
+  filter {
+    name   = "name"
+    values = var.filter_strings
+  }
+}
+
+#8. Create an EC2 Instance with the interface with nginx and certbot installed and say "hello IaC"
 resource "aws_instance" "tf" {
   # eu-west-1
-  ami           = var.ec2_ami
+  ami           = if var.filter_ami : data.aws_ami.ubuntu.id ! var.ec2_ami
   instance_type = var.ec2_type
   security_groups = [ aws_security_group.tf.name ]
   private_ip = var.private_ip

@@ -19,6 +19,15 @@ variable "ec2_ami" {
   description = "AMI ID of EC2 Instance"
 }
 
+variable "filter_ami" {
+  type = bool
+}
+
+variable "filter_strings" {
+  default = ["Ubuntu","x86_64","22.04"]
+  type = list
+}
+
 variable "ec2_type" {
   default = "t2.micro"
   type = string
