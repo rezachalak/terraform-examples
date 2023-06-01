@@ -85,7 +85,7 @@ resource "aws_instance" "tf" {
   # eu-west-1
   ami           = var.ec2_ami
   instance_type = var.ec2_type
-  security_groups = [ aws_security_group.tf ]
+  security_groups = [ aws_security_group.tf.name ]
   private_ip = var.private_ip
   subnet_id  = aws_subnet.tf.id
 }
