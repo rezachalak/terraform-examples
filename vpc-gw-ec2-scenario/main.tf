@@ -105,5 +105,6 @@ resource "aws_instance" "tf" {
   sudo echo "Hello IaC" > /var/www/html/index.html
   sudo systemctl start nginx
   sudo certbot -n -m ${var.email_for_letsencrypt} --nginx -d ${var.subdomain}
-  sudo 
+ EOF
+ 
 }
