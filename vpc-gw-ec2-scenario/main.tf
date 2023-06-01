@@ -4,6 +4,9 @@ data "aws_caller_identity" "current" {
 #1. Create a VPC
 resource "aws_vpc" "tf" {
   cidr_block = var.vpc_subnet
+  tags = {
+    Name = tf
+  }
 }
 #2. Create a Internet Gateway
 resource "aws_internet_gateway" "gw" {
@@ -40,6 +43,7 @@ resource "aws_security_group" "tf" {
   vpc_id      = aws_vpc.tf.id
 
   ingress {
+    name             = tf_https
     description      = "https"
     from_port        = 443
     to_port          = 443
@@ -48,6 +52,7 @@ resource "aws_security_group" "tf" {
   }
 
   ingress {
+    name             = tf_http
     description      = "http"
     from_port        = 80
     to_port          = 80
@@ -56,6 +61,7 @@ resource "aws_security_group" "tf" {
   }
 
   ingress {
+    name             = tf_ssh
     description      = "ssh"
     from_port        = 22
     to_port          = 22
