@@ -92,7 +92,7 @@ data "aws_ami" "ubuntu" {
 #8. Create an EC2 Instance with the interface with nginx and certbot installed and say "hello IaC"
 resource "aws_instance" "tf" {
   # eu-west-1
-  ami           = if var.filter_ami : data.aws_ami.ubuntu.id ! var.ec2_ami
+  ami           = if var.filter_ami ? data.aws_ami.ubuntu.id : var.ec2_ami
   instance_type = var.ec2_type
   security_groups = [ aws_security_group.tf.name ]
   private_ip = var.private_ip
