@@ -81,7 +81,7 @@ resource "aws_route53_record" "tf" {
 #7. Filter AMI ID to find the latest one according to var.filter_strings
 data "aws_ami" "ubuntu" {
   most_recent = true
-  owners      = [""]
+  owners      = ["amazon"]
 
   filter {
     name   = "name"
