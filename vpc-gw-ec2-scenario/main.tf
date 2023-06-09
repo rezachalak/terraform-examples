@@ -1,6 +1,9 @@
 data "aws_caller_identity" "current" {
   
 }
+locals {
+  user_id = data.aws_caller_identity.current.user_id
+}
 #1. Create a VPC
 resource "aws_vpc" "tf" {
   cidr_block = var.vpc_subnet
@@ -14,11 +17,20 @@ resource "aws_internet_gateway" "gw" {
   depends_on = [ aws_vpc.tf ]
   tags = {
     Name = "tf"
-    created_by = data.aws_caller_identity.current.user_id
+    created_by = local.user_id
   }
 }
 #3. Create a route table
-
+resource "aws_route_table" "tf" {
+  vpc_id = aws_vpc.tf.id
+  route = {
+    cidr_block = var.subnet
+    gateway_id = aws_internet_gateway.id
+  }
+  tags = {
+    Name = "tf"
+  }
+}
 
 #4. Create a subnet
 resource "aws_subnet" "tf" {
@@ -31,7 +43,10 @@ resource "aws_subnet" "tf" {
   }
 }
 #5. Associate subnet to route table
-
+resource "aws_route_table_association" "tf" {
+  subnet_id = aws_subnet.tf.id
+  route_table_id = aws_route_table.tf.id
+}
 #4. Create Elastic IP
 
 resource "aws_eip" "tf" {
@@ -79,6 +94,7 @@ resource "aws_security_group" "tf" {
 data "aws_route53_zone" "mydomain" {
   name = var.domain
 }
+
 resource "aws_route53_record" "tf" {
   zone_id = data.aws_route53_zone.mydomain.id
   name    = var.subdomain
