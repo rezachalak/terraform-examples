@@ -13,6 +13,10 @@ variable "subnet" {
   type = string
 }
 
+variable "local_ip" {
+  default = "10.0.1.12"
+  type = string
+}
 variable "ec2_ami" {
   default = "ami-01dd271720c1ba44f" # eu-west-1 (Ireland)
   type = string

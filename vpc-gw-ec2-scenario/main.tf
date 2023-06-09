@@ -52,7 +52,7 @@ resource "aws_route_table_association" "tf" {
 resource "aws_eip" "tf" {
   domain = "vpc"
   instance                  = aws_instance.tf.id
-  associate_with_private_ip = "10.0.0.12"
+  associate_with_private_ip = var.local_ip
   depends_on                = [aws_internet_gateway.gw]
 }
 #5. Create Security Group and allow 22, 80, 443/tcp
