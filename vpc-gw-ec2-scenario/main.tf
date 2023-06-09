@@ -17,7 +17,10 @@ resource "aws_internet_gateway" "gw" {
     created_by = data.aws_caller_identity.current.user_id
   }
 }
-#3. Create a subnet
+#3. Create a route table
+
+
+#4. Create a subnet
 resource "aws_subnet" "tf" {
   vpc_id     = aws_vpc.tf.id
   cidr_block = var.subnet
@@ -27,6 +30,8 @@ resource "aws_subnet" "tf" {
     Name = "tf"
   }
 }
+#5. Associate subnet to route table
+
 #4. Create Elastic IP
 
 resource "aws_eip" "tf" {
@@ -70,12 +75,12 @@ resource "aws_security_group" "tf" {
     Name = "tf"
   }
 }
-#6. Create dns record and point to the EIP
-resource "aws_route53_zone" "domain" {
+#6. Create dns record in the existing hosted zone and point to the EIP
+data "aws_route53_zone" "mydomain" {
   name = var.domain
 }
 resource "aws_route53_record" "tf" {
-  zone_id = aws_route53_zone.domain.zone_id
+  zone_id = data.aws_route53_zone.mydomain.id
   name    = var.subdomain
   type    = "A"
   ttl     = 300
