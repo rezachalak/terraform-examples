@@ -23,7 +23,7 @@ resource "aws_internet_gateway" "gw" {
 #3. Create a route table
 resource "aws_route_table" "tf" {
   vpc_id = aws_vpc.tf.id
-  route = {
+  route {
     cidr_block = var.subnet
     gateway_id = aws_internet_gateway.gw.id
   }
