@@ -1,0 +1,68 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] aws_eip.tf (expand)" [label = "aws_eip.tf", shape = "box"]
+		"[root] aws_instance.tf (expand)" [label = "aws_instance.tf", shape = "box"]
+		"[root] aws_internet_gateway.gw (expand)" [label = "aws_internet_gateway.gw", shape = "box"]
+		"[root] aws_route53_record.tf (expand)" [label = "aws_route53_record.tf", shape = "box"]
+		"[root] aws_route_table.tf (expand)" [label = "aws_route_table.tf", shape = "box"]
+		"[root] aws_route_table_association.tf (expand)" [label = "aws_route_table_association.tf", shape = "box"]
+		"[root] aws_security_group.tf (expand)" [label = "aws_security_group.tf", shape = "box"]
+		"[root] aws_subnet.tf (expand)" [label = "aws_subnet.tf", shape = "box"]
+		"[root] aws_vpc.tf (expand)" [label = "aws_vpc.tf", shape = "box"]
+		"[root] data.aws_ami.ubuntu (expand)" [label = "data.aws_ami.ubuntu", shape = "box"]
+		"[root] data.aws_caller_identity.current (expand)" [label = "data.aws_caller_identity.current", shape = "box"]
+		"[root] data.aws_route53_zone.mydomain (expand)" [label = "data.aws_route53_zone.mydomain", shape = "box"]
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"]" [label = "provider[\"registry.terraform.io/hashicorp/aws\"]", shape = "diamond"]
+		"[root] var.domain" [label = "var.domain", shape = "note"]
+		"[root] var.ec2_ami" [label = "var.ec2_ami", shape = "note"]
+		"[root] var.ec2_type" [label = "var.ec2_type", shape = "note"]
+		"[root] var.email_for_letsencrypt" [label = "var.email_for_letsencrypt", shape = "note"]
+		"[root] var.filter_ami" [label = "var.filter_ami", shape = "note"]
+		"[root] var.filter_strings" [label = "var.filter_strings", shape = "note"]
+		"[root] var.private_ip" [label = "var.private_ip", shape = "note"]
+		"[root] var.region" [label = "var.region", shape = "note"]
+		"[root] var.subdomain" [label = "var.subdomain", shape = "note"]
+		"[root] var.subnet" [label = "var.subnet", shape = "note"]
+		"[root] var.vpc_subnet" [label = "var.vpc_subnet", shape = "note"]
+		"[root] aws_eip.tf (expand)" -> "[root] aws_instance.tf (expand)"
+		"[root] aws_instance.tf (expand)" -> "[root] aws_security_group.tf (expand)"
+		"[root] aws_instance.tf (expand)" -> "[root] aws_subnet.tf (expand)"
+		"[root] aws_instance.tf (expand)" -> "[root] data.aws_ami.ubuntu (expand)"
+		"[root] aws_instance.tf (expand)" -> "[root] var.ec2_ami"
+		"[root] aws_instance.tf (expand)" -> "[root] var.ec2_type"
+		"[root] aws_instance.tf (expand)" -> "[root] var.email_for_letsencrypt"
+		"[root] aws_instance.tf (expand)" -> "[root] var.filter_ami"
+		"[root] aws_instance.tf (expand)" -> "[root] var.private_ip"
+		"[root] aws_instance.tf (expand)" -> "[root] var.subdomain"
+		"[root] aws_internet_gateway.gw (expand)" -> "[root] aws_vpc.tf (expand)"
+		"[root] aws_internet_gateway.gw (expand)" -> "[root] local.user_id (expand)"
+		"[root] aws_route53_record.tf (expand)" -> "[root] aws_eip.tf (expand)"
+		"[root] aws_route53_record.tf (expand)" -> "[root] data.aws_route53_zone.mydomain (expand)"
+		"[root] aws_route_table.tf (expand)" -> "[root] aws_vpc.tf (expand)"
+		"[root] aws_route_table.tf (expand)" -> "[root] var.subnet"
+		"[root] aws_route_table_association.tf (expand)" -> "[root] aws_route_table.tf (expand)"
+		"[root] aws_route_table_association.tf (expand)" -> "[root] aws_subnet.tf (expand)"
+		"[root] aws_security_group.tf (expand)" -> "[root] aws_vpc.tf (expand)"
+		"[root] aws_subnet.tf (expand)" -> "[root] aws_internet_gateway.gw (expand)"
+		"[root] aws_subnet.tf (expand)" -> "[root] var.subnet"
+		"[root] aws_vpc.tf (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] aws_vpc.tf (expand)" -> "[root] var.vpc_subnet"
+		"[root] data.aws_ami.ubuntu (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] data.aws_ami.ubuntu (expand)" -> "[root] var.filter_strings"
+		"[root] data.aws_caller_identity.current (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] data.aws_route53_zone.mydomain (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] data.aws_route53_zone.mydomain (expand)" -> "[root] var.domain"
+		"[root] local.user_id (expand)" -> "[root] data.aws_caller_identity.current (expand)"
+		"[root] output.eip (expand)" -> "[root] aws_eip.tf (expand)"
+		"[root] output.website_addr (expand)" -> "[root] aws_route53_record.tf (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_route53_record.tf (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_route_table_association.tf (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"]" -> "[root] var.region"
+		"[root] root" -> "[root] output.eip (expand)"
+		"[root] root" -> "[root] output.website_addr (expand)"
+		"[root] root" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)"
+	}
+}
+
