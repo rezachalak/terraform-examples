@@ -37,9 +37,6 @@ variable "ec2_type" {
   type = string
 }
 
-variable "private_ip" {
-  default = "10.0.0.12"
-}
 # Required
 variable "subdomain" {
   type = string

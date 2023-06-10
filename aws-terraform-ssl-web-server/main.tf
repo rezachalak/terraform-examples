@@ -132,7 +132,7 @@ resource "aws_instance" "tf" {
   ami           = var.filter_ami ? data.aws_ami.ubuntu.id : var.ec2_ami
   instance_type = var.ec2_type
   vpc_security_group_ids = [ aws_security_group.tf.id ]
-  private_ip = var.private_ip
+  private_ip = var.local_ip
   subnet_id  = aws_subnet.tf.id
   user_data = <<-EOF
               #!/bin/bash
