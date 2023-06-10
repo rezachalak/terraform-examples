@@ -24,7 +24,7 @@ resource "aws_internet_gateway" "gw" {
 resource "aws_route_table" "tf" {
   vpc_id = aws_vpc.tf.id
   route {
-    cidr_block = var.subnet
+    cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.gw.id
   }
   tags = {
@@ -47,6 +47,8 @@ resource "aws_route_table_association" "tf" {
   subnet_id = aws_subnet.tf.id
   route_table_id = aws_route_table.tf.id
 }
+
+
 #4. Create Elastic IP
 
 resource "aws_eip" "tf" {
@@ -90,7 +92,17 @@ resource "aws_security_group" "tf" {
     Name = "tf"
   }
 }
-#6. Create dns record in the existing hosted zone and point to the EIP
+
+#6. Create a network interface with an ip in the subnet that was created in step 4
+
+resource "aws_network_interface" "web-server-tf" {
+  subnet_id       = aws_subnet.tf.id
+  private_ips     = [var.local_ip]
+  security_groups = [aws_security_group.tf.id]
+
+}
+
+#7. Create dns record in the existing hosted zone and point to the EIP
 data "aws_route53_zone" "mydomain" {
   name = var.domain
 }
@@ -102,7 +114,8 @@ resource "aws_route53_record" "tf" {
   ttl     = 300
   records = [aws_eip.tf.public_ip]
 }
-#7. Filter AMI ID to find the latest one according to var.filter_strings
+
+#8. Filter AMI ID to find the latest one according to var.filter_strings
 data "aws_ami" "ubuntu" {
   most_recent = true
   owners      = ["amazon"]
@@ -113,7 +126,7 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-#8. Create an EC2 Instance with the interface with nginx and certbot installed and say "hello IaC"
+#9. Create an EC2 Instance with the interface with nginx and certbot installed and say "hello IaC"
 resource "aws_instance" "tf" {
   # eu-west-1
   ami           = var.filter_ami ? data.aws_ami.ubuntu.id : var.ec2_ami
@@ -122,13 +135,13 @@ resource "aws_instance" "tf" {
   private_ip = var.private_ip
   subnet_id  = aws_subnet.tf.id
   user_data = <<-EOF
-  #!/bin/bash
-  set -e
-  sudo apt update
-  sudo apt install -y certbot python3-certbot-nginx
-  sudo echo "Hello IaC" > /var/www/html/index.html
-  sudo systemctl start nginx
-  sudo certbot -n -m ${var.email_for_letsencrypt} --nginx -d ${var.subdomain}
+          #!/bin/bash
+          set -e
+          sudo apt update
+          sudo apt install -y certbot python3-certbot-nginx
+          sudo echo "Hello IaC" > /var/www/html/index.html
+          sudo systemctl start nginx
+          sudo certbot -n -m ${var.email_for_letsencrypt} --nginx -d ${var.subdomain}
  EOF
  
 }
