@@ -25,7 +25,7 @@ resource "aws_route_table" "tf" {
   vpc_id = aws_vpc.tf.id
   route = {
     cidr_block = var.subnet
-    gateway_id = aws_internet_gateway.id
+    gateway_id = aws_internet_gateway.gw.id
   }
   tags = {
     Name = "tf"
