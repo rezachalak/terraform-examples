@@ -131,17 +131,17 @@ resource "aws_instance" "tf" {
   # eu-west-1
   ami           = var.filter_ami ? data.aws_ami.ubuntu.id : var.ec2_ami
   instance_type = var.ec2_type
-  security_groups = [ aws_security_group.tf.name ]
+  vpc_security_group_ids = [ aws_security_group.tf.id ]
   private_ip = var.private_ip
   subnet_id  = aws_subnet.tf.id
   user_data = <<-EOF
-          #!/bin/bash
-          set -e
-          sudo apt update
-          sudo apt install -y certbot python3-certbot-nginx
-          sudo echo "Hello IaC" > /var/www/html/index.html
-          sudo systemctl start nginx
-          sudo certbot -n -m ${var.email_for_letsencrypt} --nginx -d ${var.subdomain}
+              #!/bin/bash
+              set -e
+              sudo apt update
+              sudo apt install -y certbot python3-certbot-nginx
+              sudo echo "Hello IaC" > /var/www/html/index.html
+              sudo systemctl start nginx
+              sudo certbot -n -m ${var.email_for_letsencrypt} --nginx -d ${var.subdomain}
  EOF
  
 }
