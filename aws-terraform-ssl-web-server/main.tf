@@ -131,9 +131,11 @@ resource "aws_instance" "tf" {
   # eu-west-1
   ami           = var.filter_ami ? data.aws_ami.ubuntu.id : var.ec2_ami
   instance_type = var.ec2_type
-  vpc_security_group_ids = [ aws_security_group.tf.id ]
-  private_ip = var.local_ip
-  subnet_id  = aws_subnet.tf.id
+  key_name = var.key_name
+  network_interface {
+    device_index = 0
+    network_interface_id = aws_network_interface.web-server-tf.id
+  }
   user_data = <<-EOF
               #!/bin/bash
               set -e

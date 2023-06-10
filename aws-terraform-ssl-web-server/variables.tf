@@ -37,6 +37,9 @@ variable "ec2_type" {
   type = string
 }
 
+variable "private_ip" {
+  default = "10.0.1.13"
+}
 # Required
 variable "subdomain" {
   type = string
@@ -48,4 +51,8 @@ variable "domain" {
 
 variable "email_for_letsencrypt" {
   type = string
+}
+
+variable "key_name" {
+  type = string 
 }
