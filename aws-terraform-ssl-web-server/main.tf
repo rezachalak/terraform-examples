@@ -103,9 +103,9 @@ resource "aws_network_interface" "web-server-tf" {
 }
 
 #7. Create dns record in the existing hosted zone and point to the EIP
-data "aws_route53_zone" "mydomain" {
-  name = var.domain
-}
+# data "aws_route53_zone" "mydomain" {
+#   name = var.domain
+# }
 
 # resource "aws_route53_record" "tf" {
 #   zone_id = data.aws_route53_zone.mydomain.id
