@@ -132,10 +132,10 @@ resource "aws_instance" "tf" {
   ami           = var.filter_ami ? data.aws_ami.ubuntu.id : var.ec2_ami
   instance_type = var.ec2_type
   key_name = var.key_name
-  network_interface {
-    device_index = 0
-    network_interface_id = aws_network_interface.web-server-tf.id
-  }
+  # network_interface {
+  #   device_index = 0
+  #   network_interface_id = aws_network_interface.web-server-tf.id
+  # }
   user_data = <<-EOF
               #!/bin/bash
               set -e
