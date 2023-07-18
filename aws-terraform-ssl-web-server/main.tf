@@ -107,13 +107,13 @@ data "aws_route53_zone" "mydomain" {
   name = var.domain
 }
 
-resource "aws_route53_record" "tf" {
-  zone_id = data.aws_route53_zone.mydomain.id
-  name    = var.subdomain
-  type    = "A"
-  ttl     = 300
-  records = [aws_eip.tf.public_ip]
-}
+# resource "aws_route53_record" "tf" {
+#   zone_id = data.aws_route53_zone.mydomain.id
+#   name    = var.subdomain
+#   type    = "A"
+#   ttl     = 300
+#   records = [aws_eip.tf.public_ip]
+# }
 
 #8. Filter AMI ID to find the latest one according to var.filter_strings
 data "aws_ami" "ubuntu" {
